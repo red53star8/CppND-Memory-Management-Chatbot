@@ -2,6 +2,7 @@
 #define CHATGUI_H_
 
 #include <wx/wx.h>
+#include<memory>
 
 class ChatLogic; // forward declaration
 
@@ -14,9 +15,12 @@ private:
     wxBitmap _image;
 
     //// STUDENT CODE
-    ////
 
-    ChatLogic *_chatLogic;
+    //// changed _chatlogic to unique pointer from raw pointer
+    std::unique_ptr<ChatLogic> _chatLogic;
+    //std::unique_ptr<ChatLogic> _chatLogic(new ChatLogic()); 
+
+    //ChatLogic *_chatLogic;
 
     ////
     //// EOF STUDENT CODE
@@ -27,7 +31,8 @@ public:
     ~ChatBotPanelDialog();
 
     // getter / setter
-    ChatLogic *GetChatLogicHandle() { return _chatLogic; }
+    // used .get() to get pointer value from unique pointer
+    ChatLogic *GetChatLogicHandle() { return _chatLogic.get(); }
 
     // events
     void paintEvent(wxPaintEvent &evt);
